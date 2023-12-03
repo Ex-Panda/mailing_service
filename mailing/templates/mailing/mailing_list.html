@@ -1,0 +1,88 @@
+{% extends 'mailing/base.html' %}
+{% load tags %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">MailingService</h1>
+    <p class="lead">MailingService - это сервис управления рассылками, администрирования и получения статистики</p>
+</div>
+
+{% endblock %}
+
+{% block content %}
+<div class="col-12 mb-5">
+    <a class="btn btn-outline-success" href="{% url 'mailing:create_mailing' %}">Создать рассылку</a>
+        <a class="btn btn-outline-success" href="{% url 'mailing:create_client' %}">Создать клиента</a>
+    </div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Рассылки</th>
+      <th scope="col">Создатель</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+        {% if object.status == "created" %}
+        <tr class="table">
+            <td>{{ object.matter_letter }}</td>
+            <td>{{ object.owner }}</td>
+            <td>
+                {% if object.owner == user or user.is_superuser %}
+                <a href="{% url 'mailing:mailing' object.pk %}" type="button" class="btn btn-light">Подробнее</a>
+                {% endif %}
+                {% if perms.mailing.mailing_published %}
+                <a href="{% url 'mailing:block_mailing' object.pk %}" type="button" class="btn btn-danger">Заблокировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% elif object.status == "started" %}
+        <tr class="table-success">
+            <td>{{ object.matter_letter }}</td>
+            <td>{{ object.owner }}</td>
+            <td>
+                {% if object.owner == user or user.is_superuser %}
+                <a href="{% url 'mailing:mailing' object.pk %}" type="button" class="btn btn-light">Подробнее</a>
+                {% endif %}
+                {% if perms.mailing.mailing_published %}
+                <a href="{% url 'mailing:block_mailing' object.pk %}" type="button" class="btn btn-danger">Заблокировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% elif object.status == "done" %}
+        <tr class="table-danger">
+            <td>{{ object.matter_letter }}</td>
+            <td>{{ object.owner }}</td>
+            <td>
+                {% if object.owner == user or user.is_superuser %}
+                <a href="{% url 'mailing:mailing' object.pk %}" type="button" class="btn btn-light">Подробнее</a>
+                {% endif %}
+                {% if perms.mailing.mailing_published %}
+                <a href="{% url 'mailing:block_mailing' object.pk %}" type="button" class="btn btn-danger">Заблокировать</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% elif object.status == "blocked" %}
+        <tr class="table-dark">
+            <td>{{ object.matter_letter }}</td>
+            <td>{{ object.owner }}</td>
+            <td>
+                {% if object.owner == user or user.is_superuser %}
+                <a href="{% url 'mailing:mailing' object.pk %}" type="button" class="btn btn-light">Подробнее</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+<div class="col-12 mb-5">
+        <a class="btn btn-outline-success" href="{% url 'mailing:client_list' %}">Посмотреть клиентов</a>
+        {% if perms.mailing.mailing_published %}
+        <a class="btn btn-outline-success" href="{% url 'user_auth:user_list' %}">Посмотреть пользователей</a>
+        {% endif %}
+    </div>
+
+{% endblock %}

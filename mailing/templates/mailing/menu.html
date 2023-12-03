@@ -1,0 +1,8 @@
+<nav class="ms-5">
+    {% if user.is_authenticated %}
+        <a class="p-2 btn btn-light" href="{% url 'user_auth:logout' %}">Выйти</a>
+    {% else %}
+        <a class="p-2 btn btn-light" href="{% url 'user_auth:login' %}">Войти</a>
+        <a class="p-2 btn btn-light" href="{% url 'user_auth:register' %}">Зарегистрироваться</a>
+    {% endif %}
+    </nav>

@@ -1,0 +1,40 @@
+{% extends 'mailing/base.html' %}
+{% load tags %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">MailingService</h1>
+    <p class="lead">MailingService - это сервис управления рассылками, администрирования и получения статистики</p>
+</div>
+
+{% endblock %}
+{% block content %}
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<blockquote class="blockquote">
+				<p class="mb-0">
+					На нашем сервисе уже {{ mailing }} рассылок
+				</p>
+                <p></p>
+                <p class="mb-0">
+					Активных рассылок: {{ mailing_active }}
+				</p>
+                <p></p>
+                <p class="mb-0">
+					Количество уникальных клиентов рассылок: {{ client_unique }}
+				</p>
+                <p></p>
+                <p class="mb-0">
+                    Ознакомьтесь с последними новостями:
+                    {% for blog_object in blog %}
+                    <a href="{% url 'blog:view' blog_object.pk %}" type="button" class="btn btn-link">{{ blog_object }}</a>
+                    {% endfor %}
+                </p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'mailing:mailing_list' %}" type="button" class="btn btn-success">Перейти в личный профиль</a>
+                {% endif %}
+			</blockquote>
+		</div>
+	</div>
+</div>
+{% endblock %}

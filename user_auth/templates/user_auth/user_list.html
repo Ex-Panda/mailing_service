@@ -1,0 +1,26 @@
+{% extends 'mailing/base.html' %}
+
+{% block content %}
+<h5>Вы не можете заблокировать себя и администратора сервиса</h5>
+<table class="table table-bordered border-black">
+  <thead>
+    <tr>
+      <th scope="col">Пользователь</th>
+      <th scope="col">Действие</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+        {% if object.is_active == True %}
+        <tr class="table-success">
+        <td>{{ object.email }}</td>
+        <td><a href="{% url 'user_auth:user_block' object.pk %}" type="button" class="btn btn-danger">Danger</a></td>
+        {% elif object.is_active == False %}
+        <tr class="table-secondary">
+        <td>{{ object.email }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

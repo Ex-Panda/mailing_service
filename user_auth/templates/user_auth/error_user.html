@@ -1,0 +1,9 @@
+{% extends 'mailing/base.html' %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Ошибка: неверно указан проверочный код</h1>
+    <h2 class="display-4">Проверьте почту</h2>
+</div>
+<a type="submit" href=" {% url 'user_auth:verification' %} " class="btn btn-lg btn-block btn-outline-primary">Повторить попытку</a>
+{% endblock %}
+

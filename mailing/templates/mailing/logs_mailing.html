@@ -1,0 +1,31 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Рассылка</th>
+      <th scope="col">Статус</th>
+      <th scope="col">Время попытки</th>
+      <th scope="col">Клиент</th>
+      <th scope="col">Ответ сервера</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for object in object_list %}
+    <tr>
+      <td>{{ object.mailing }}</td>
+      <td>{{ object.status }}</td>
+      <td>{{ object.datetime_last_attempt }}</td>
+      <td>{{ object.client }}</td>
+      <td>{{ object.error_msg }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Логи рассылки {{ object.mailing }}</h1>
+    <p class="lead">MailingService - это сервис управления рассылками, администрирования и получения статистики</p>
+</div>
+{% endblock %}

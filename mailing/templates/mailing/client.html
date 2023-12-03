@@ -1,0 +1,32 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="col-12">
+    <div class="row justify-content-center">
+        <div class="col-6">
+            <div class="card mb-4 box-shadow">
+                <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{ object.name }}</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                        <li>Почта: "{{ object.email}}"</li>
+                        <li>Комментарий:</li>
+                        <li>"{{ object.comment }}"</li>
+
+                    </ul>
+                    <a href="{% url 'mailing:update_client' object.pk %}" type="button"
+                           class="btn btn-outline-success">Редактировать</a>
+                    <a href="{% url 'mailing:delete_client' object.pk %}" type="button"
+                           class="btn btn-outline-danger">Удалить</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Информация по рассылке</h1>
+    <p class="lead">MailingService - это сервис управления рассылками, администрирования и получения статистики</p>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'mailing/base.html' %}
+{% block content %}
+<div class="col-6">
+        <div class="list-group">
+            {% for object in object_list %}
+            <a href="{% url 'mailing:client' object.pk %}" type="button" class="list-group-item list-group-item-action ">{{ object.name }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+{% block head %}
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Информация о клиентах</h1>
+    <p class="lead">MailingService - это сервис управления рассылками, администрирования и получения статистики</p>
+</div>
+{% endblock %}
