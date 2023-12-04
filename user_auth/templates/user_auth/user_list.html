@@ -14,7 +14,7 @@
         {% if object.is_active == True %}
         <tr class="table-success">
         <td>{{ object.email }}</td>
-        <td><a href="{% url 'user_auth:user_block' object.pk %}" type="button" class="btn btn-danger">Danger</a></td>
+        <td><a href="{% url 'user_auth:user_block' object.pk %}" type="button" class="btn btn-danger">Заблокировать</a></td>
         {% elif object.is_active == False %}
         <tr class="table-secondary">
         <td>{{ object.email }}</td>
