@@ -10,7 +10,7 @@ app_name = MailingConfig.name
 
 urlpatterns = [
     path('', HomeTemplateView.as_view(), name='home'),
-    path('mailing_list', cache_page(60)(MailingListView.as_view()), name='mailing_list'),
+    path('mailing_list', MailingListView.as_view(), name='mailing_list'),
     path('create/', MailingCreateView.as_view(), name='create_mailing'),
     path('mailing/<int:pk>/', MailingDetailView.as_view(), name='mailing'),
     path('update/<int:pk>', MailingUpdateView.as_view(), name='update_mailing'),

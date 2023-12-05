@@ -42,8 +42,8 @@ class Mailing(models.Model):
         (STATUS_BLOCKED, 'Заблокирована'),
     )
 
-    start_time = models.DateTimeField(help_text='Пожалуйста, используйте следующий формат: <em>YYYY-MM-DD HH:MM</em>.', verbose_name='старт рассылки')
-    end_time = models.DateTimeField(help_text='Пожалуйста, используйте следующий формат: <em>YYYY-MM-DD HH:MM</em>.', verbose_name='конец рассылки')
+    start_time = models.DateField(help_text='Пожалуйста, используйте следующий формат: <em>YYYY-MM-DD</em>.', verbose_name='старт рассылки')
+    end_time = models.DateField(help_text='Пожалуйста, используйте следующий формат: <em>YYYY-MM-DD</em>.', verbose_name='конец рассылки')
     period = models.CharField(max_length=20, choices=PERIODS, verbose_name='периодичность')
     status = models.CharField(default='created', max_length=20, choices=STATUSES, verbose_name='статус рассылки')
 
