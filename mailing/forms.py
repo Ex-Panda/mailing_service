@@ -14,7 +14,7 @@ class MailingForm(NiceForm, forms.ModelForm):
 
     class Meta:
         model = Mailing
-        fields = ('start_time', 'end_time', 'period', 'matter_letter', 'message_body', 'client',)
+        fields = ('start_time', 'end_time', 'time_mailing', 'period', 'matter_letter', 'message_body', 'client',)
 
     def __init__(self, user, *args, **kwargs):
         #функция возвращает пользователю только его клиентов при создании формы рассылки

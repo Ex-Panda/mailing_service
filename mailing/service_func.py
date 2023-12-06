@@ -1,3 +1,4 @@
+import calendar
 import datetime
 from smtplib import SMTPSenderRefused, SMTPRecipientsRefused, SMTPDataError, SMTPConnectError, SMTPHeloError, \
     SMTPNotSupportedError, SMTPAuthenticationError
@@ -8,13 +9,10 @@ from django.utils import timezone
 from config import settings
 from mailing.models import Mailing, MailingLog
 
-now = timezone.now()
-
-#СОНЯ ИЗУЧИ ORM!!!!!!!!!!!!!!!
-
 
 def mailing_client(mailing):
     """Фунцкия отправляет рассылку каждому её клиенту"""
+    now = timezone.now()
     clients = mailing.client.all()
     for client in clients:
         try:
@@ -31,22 +29,32 @@ def mailing_client(mailing):
 
 
 def status_mailing():
-    mailing_start = Mailing.objects.filter(start_time__lte=now, end_time__gte=now, status='created')
+    now = timezone.now()
+    mailing_start = Mailing.objects.filter(start_time__lte=now, end_time__gte=now, status=('created', 'started'))
 
     for mailing in mailing_start:
         mailing.status = 'started'
         mailing.save()
+        if mailing.time_mailing.hour == now.hour and mailing.time_mailing.minute == now.minute:
+            if mailing.period == 'daily':
+                if mailing.date_next_mailing.day == now.day:
+                    mailing_client(mailing)
+                    mailing.date_next_mailing = mailing.date_next_mailing + datetime.timedelta(days=1)
+                    mailing.date_next_mailing.save()
+            elif mailing.period == 'weekly':
+                if mailing.date_next_mailing.day == now.day:
+                    mailing_client(mailing)
+                    mailing.date_next_mailing = mailing.date_next_mailing + datetime.timedelta(days=7)
+                    mailing.date_next_mailing.save()
+            elif mailing.period == 'monthly':
+                if mailing.date_next_mailing.day == now.day and mailing.date_next_mailing.month == now.month:
+                    mailing_client(mailing)
+                    days = calendar.monthrange(now.year, now.month)[1]
+                    mailing.date_next_mailing = mailing.date_next_mailing + datetime.timedelta(days=days)
+                    mailing.date_next_mailing.save()
 
     mailing_end = Mailing.objects.filter(end_time__lt=now, status__in=['created', 'started'])
 
     for mailing in mailing_end:
         mailing.status = 'done'
         mailing.save()
-
-
-def start_mailing(period):
-    mailing_start = Mailing.objects.filter(period=period, status='started')
-
-    for mailing in mailing_start:
-        mailing_client(mailing)
-

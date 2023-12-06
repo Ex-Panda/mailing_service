@@ -37,6 +37,7 @@ class MailingCreateView(ProtectedView, CreateView):
         if form.is_valid():
             new_mailing = form.save()
             new_mailing.owner = self.request.user
+            new_mailing.date_next_mailing = new_mailing.start_time
             new_mailing.save()
         return super().form_valid(form)
 

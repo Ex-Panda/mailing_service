@@ -152,8 +152,5 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
 
 CRONJOBS = [
-    ('*/5 * * * *', 'mailing.service_func.status_mailing'), #проверка и смена статуса каждые 5 минут
-    ('0 12 * * *', 'mailing.service_func.start_mailing', ['daily']), #ежедневная в 12:00
-    ('0 12 * * 1', 'mailing.service_func.start_mailing', ['weekly']), #еженедельная в 12:00
-    ('0 12 1 * *', 'mailing.service_func.start_mailing', ['monthly']), #ежемесячная в 12:00
+    ('*/1 * * * *', 'mailing.service_func.status_mailing'),
 ]
