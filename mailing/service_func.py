@@ -3,6 +3,7 @@ import datetime
 from smtplib import SMTPSenderRefused, SMTPRecipientsRefused, SMTPDataError, SMTPConnectError, SMTPHeloError, \
     SMTPNotSupportedError, SMTPAuthenticationError
 
+from celery import shared_task
 from django.core.mail import send_mail
 from django.utils import timezone
 
@@ -28,9 +29,11 @@ def mailing_client(mailing):
             log.save()
 
 
+@shared_task
 def status_mailing():
-    now = timezone.now()
-    mailing_start = Mailing.objects.filter(start_time__lte=now, end_time__gte=now, status=('created', 'started'))
+    now = datetime.datetime.now()
+    mailing_start = Mailing.objects.filter(start_time__lte=now, end_time__gte=now, status__in=['created', 'started'])
+    print(now)
 
     for mailing in mailing_start:
         mailing.status = 'started'
@@ -41,6 +44,7 @@ def status_mailing():
                     mailing_client(mailing)
                     mailing.date_next_mailing = mailing.date_next_mailing + datetime.timedelta(days=1)
                     mailing.date_next_mailing.save()
+                    print("лох")
             elif mailing.period == 'weekly':
                 if mailing.date_next_mailing.day == now.day:
                     mailing_client(mailing)

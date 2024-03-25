@@ -24,12 +24,12 @@
 					Количество уникальных клиентов рассылок: {{ client_unique }}
 				</p>
                 <p></p>
-                <p class="mb-0">
-                    Ознакомьтесь с последними новостями:
-                    {% for blog_object in blog %}
-                    <a href="{% url 'blog:view' blog_object.pk %}" type="button" class="btn btn-link">{{ blog_object }}</a>
-                    {% endfor %}
-                </p>
+<!--                <p class="mb-0">-->
+<!--                    Ознакомьтесь с последними новостями:-->
+<!--                    {% for blog_object in blog %}-->
+<!--                    <a href="{% url 'blog:view' blog_object.pk %}" type="button" class="btn btn-link">{{ blog_object }}</a>-->
+<!--                    {% endfor %}-->
+<!--                </p>-->
                 {% if user.is_authenticated %}
                     <a href="{% url 'mailing:mailing_list' %}" type="button" class="btn btn-success">Перейти в личный профиль</a>
                 {% endif %}

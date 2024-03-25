@@ -35,7 +35,7 @@ class MailingCreateView(ProtectedView, CreateView):
     def form_valid(self, form):
         #создатель закрепляется за рассылкой
         if form.is_valid():
-            new_mailing = form.save()
+            new_mailing = form.save(commit=False)
             new_mailing.owner = self.request.user
             new_mailing.date_next_mailing = new_mailing.start_time
             new_mailing.save()
